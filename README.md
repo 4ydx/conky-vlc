@@ -7,7 +7,8 @@ This code is dead simple and will be very easy to change to suit your own needs.
 
 Clone this repository.
 
-cd conky-vlc;
+cd conky-vlc
+
 go install
 
 ### Prerequisites
