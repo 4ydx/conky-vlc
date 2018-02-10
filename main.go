@@ -32,7 +32,7 @@ func main() {
 	client := &http.Client{}
 	req, err := http.NewRequest("GET", "http://127.0.0.1:8080/requests/status.json", nil)
 	if err != nil {
-		fmt.Fprint(os.Stdout, err.Error())
+		fmt.Print(err)
 		return
 	}
 	req.SetBasicAuth("", os.Getenv("VLC_PASSWORD"))
@@ -42,14 +42,14 @@ func main() {
 	if err != nil {
 		m, e := regexp.MatchString("connection refused", err.Error())
 		if e != nil {
-			fmt.Fprint(os.Stdout, err.Error())
+			fmt.Print(e)
 			return
 		}
 		if m {
-			fmt.Fprint(os.Stdout, "--")
+			fmt.Print("--")
 			return
 		}
-		fmt.Fprint(os.Stdout, err.Error())
+		fmt.Print(err)
 		return
 	}
 	defer resp.Body.Close()
@@ -57,22 +57,22 @@ func main() {
 	// read response, fill the VLCResponse object, and return text to conky
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		fmt.Fprint(os.Stdout, err.Error())
+		fmt.Print(err)
 		return
 	}
 	vlc := &VLCResponse{}
 	err = json.Unmarshal(body, vlc)
 	if err != nil {
-		fmt.Fprint(os.Stdout, err.Error())
+		fmt.Print(err)
 		return
 	}
 	tmpl, err := template.New("test").Parse("{{.Information.Category.Meta.NowPlaying}}")
 	if err != nil {
-		fmt.Fprint(os.Stdout, err.Error())
+		fmt.Print(err)
 		return
 	}
 	err = tmpl.Execute(os.Stdout, vlc)
 	if err != nil {
-		fmt.Fprint(os.Stdout, err.Error())
+		fmt.Print(err)
 	}
 }
