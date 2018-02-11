@@ -1,0 +1,8 @@
+[Unit]
+Description=CVLC Player
+
+[Service]
+ExecStart=/usr/bin/cvlc <some-url> --extraintf http --http-password <password>
+
+[Install]
+WantedBy=default.target
